@@ -11,12 +11,21 @@ import {
   User,
 } from './types';
 
-// PostgreSQL Connection String
-const rawConn = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/shifttracker';
+// PostgreSQL Connection String (Supports standard DATABASE_URL and Vercel Storage POSTGRES_URL)
+const rawConn =
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  process.env.POSTGRES_PRISMA_URL ||
+  process.env.POSTGRES_URL_NON_POOLING ||
+  'postgresql://postgres:postgres@localhost:5432/shifttracker';
 const isLocal = rawConn.includes('localhost') || rawConn.includes('127.0.0.1');
 
-// Only attempt PG if DATABASE_URL is provided or not in a serverless cloud environment
-const isCloudWithoutDb = Boolean(process.env.VERCEL) && !process.env.DATABASE_URL;
+// Only attempt PG if DATABASE_URL or POSTGRES_URL is provided or not in a serverless cloud environment
+const isCloudWithoutDb =
+  Boolean(process.env.VERCEL) &&
+  !process.env.DATABASE_URL &&
+  !process.env.POSTGRES_URL &&
+  !process.env.POSTGRES_PRISMA_URL;
 
 export const pool = new Pool({
   connectionString: rawConn,

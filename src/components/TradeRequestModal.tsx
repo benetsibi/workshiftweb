@@ -128,6 +128,14 @@ export default function TradeRequestModal({
         throw new Error(data.error || 'Failed to submit trade request');
       }
 
+      if (typeof window !== 'undefined' && data.trade) {
+        try {
+          const list = JSON.parse(localStorage.getItem('shifttracker_cached_trades') || '[]');
+          list.unshift(data.trade);
+          localStorage.setItem('shifttracker_cached_trades', JSON.stringify(list));
+        } catch {}
+      }
+
       onSubmitted();
       onClose();
     } catch (err: any) {

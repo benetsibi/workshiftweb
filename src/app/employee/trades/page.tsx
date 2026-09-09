@@ -83,22 +83,42 @@ function TradesHubContent() {
         shiftsRes.json(),
       ]);
 
-      if (tradesData.trades) {
-        setTrades(tradesData.trades);
+      let combinedTrades: TradeWithDetails[] = tradesData.trades || [];
+
+      // Merge with localStorage cached trades for serverless cloud persistence
+      if (typeof window !== 'undefined') {
+        try {
+          const cachedRaw = localStorage.getItem('shifttracker_cached_trades');
+          if (cachedRaw) {
+            const cached: TradeWithDetails[] = JSON.parse(cachedRaw);
+            const map = new Map<string, TradeWithDetails>();
+            combinedTrades.forEach(t => map.set(t.id, t));
+            cached.forEach(t => {
+              const existing = map.get(t.id);
+              if (!existing || new Date(t.updatedAt || 0) >= new Date(existing.updatedAt || 0)) {
+                map.set(t.id, t);
+              }
+            });
+            combinedTrades = Array.from(map.values());
+            combinedTrades.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          }
+        } catch {}
+      }
+
+      setTrades(combinedTrades);
+      
+      // Smart tab selection if not explicitly set
+      if (currentUser) {
+        const inb = combinedTrades.filter((t: any) => t.targetUserId === currentUser.id);
+        const outb = combinedTrades.filter((t: any) => t.requesterId === currentUser.id);
         
-        // Smart tab selection if not explicitly set
-        if (currentUser) {
-          const inb = tradesData.trades.filter((t: any) => t.targetUserId === currentUser.id);
-          const outb = tradesData.trades.filter((t: any) => t.requesterId === currentUser.id);
-          
-          if (preferredTab) {
-            handleTabChange(preferredTab);
-          } else if (typeof window !== 'undefined' && !localStorage.getItem('shifttracker_trades_tab')) {
-            if (inb.length > 0) {
-              handleTabChange('inbound');
-            } else if (outb.length > 0) {
-              handleTabChange('outbound');
-            }
+        if (preferredTab) {
+          handleTabChange(preferredTab);
+        } else if (typeof window !== 'undefined' && !localStorage.getItem('shifttracker_trades_tab')) {
+          if (inb.length > 0) {
+            handleTabChange('inbound');
+          } else if (outb.length > 0) {
+            handleTabChange('outbound');
           }
         }
       }
@@ -150,6 +170,18 @@ function TradesHubContent() {
           type: 'success',
           message: 'Trade request cancelled.',
         });
+      }
+      // Update in localStorage cache as well
+      if (typeof window !== 'undefined') {
+        try {
+          const list: any[] = JSON.parse(localStorage.getItem('shifttracker_cached_trades') || '[]');
+          const idx = list.findIndex(t => t.id === tradeId);
+          if (idx !== -1) {
+            list[idx].status = action === 'PEER_ACCEPT' ? 'PEER_ACCEPTED' : action === 'PEER_DECLINE' ? 'PEER_DECLINED' : 'CANCELLED';
+            list[idx].updatedAt = new Date().toISOString();
+            localStorage.setItem('shifttracker_cached_trades', JSON.stringify(list));
+          }
+        } catch {}
       }
 
       loadData();
