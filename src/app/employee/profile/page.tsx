@@ -104,7 +104,7 @@ export default async function EmployeeProfilePage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', color: '#334155' }}>
                 <Building size={15} color="#64748b" />
-                <span>St. Jude Community Hospital</span>
+                <span>Workforce Operations</span>
               </div>
             </div>
           </div>

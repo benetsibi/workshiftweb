@@ -102,7 +102,7 @@ export default function ChronosPlannerView({
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `CareShift_Roster_${activeDay.dateStr}.csv`;
+    a.download = `ShiftTracker_Roster_${activeDay.dateStr}.csv`;
     a.click();
     showToast('Shift Roster exported successfully as CSV');
   };

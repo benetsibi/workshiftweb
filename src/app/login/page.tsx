@@ -92,14 +92,11 @@ function LoginForm() {
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '4px' }}>
               <h1 style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: 0 }}>
-                Care<span style={{ color: '#0284c7' }}>Shift</span>
+                Shift<span style={{ color: '#0284c7' }}>Tracker</span>
               </h1>
-              <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 7px', backgroundColor: '#e0f2fe', color: '#0369a1', borderRadius: '9999px', textTransform: 'uppercase' }}>
-                v3.4.2
-              </span>
             </div>
-            <p style={{ fontSize: '12px', color: '#64748b', fontWeight: 500, margin: 0 }}>
-              Hospital Inpatient Workforce Suite • St. Jude Unit 3B
+            <p style={{ fontSize: '13px', color: '#64748b', fontWeight: 500, margin: 0 }}>
+              Workforce Shift Management & Scheduling
             </p>
           </div>
 
@@ -206,12 +203,10 @@ function LoginForm() {
                 boxShadow: '0 2px 6px rgba(11, 19, 43, 0.25)',
               }}
             >
-              {loading ? 'Authenticating...' : 'Sign In to CareShift'}
+              {loading ? 'Authenticating...' : 'Sign In to Shift Tracker'}
               <ArrowRight size={16} />
             </button>
           </form>
-
-
 
           <div style={{
             fontSize: '11px',
@@ -219,12 +214,10 @@ function LoginForm() {
             lineHeight: 1.5,
             borderTop: '1px solid #cbd5e1',
             paddingTop: '12px',
+            textAlign: 'center',
           }}>
-            <p style={{ marginBottom: '4px' }}>
-              <strong>Notice:</strong> This is a secure clinical healthcare system. Sessions expire after 5 minutes of inactivity.
-            </p>
-            <p style={{ fontSize: '10px', color: '#94a3b8' }}>
-              Protected by Hospital Electronic Security Protocols & HIPAA Compliance Standards.
+            <p style={{ margin: 0 }}>
+              Shift Tracker • Secure Workforce Scheduling Platform
             </p>
           </div>
         </div>

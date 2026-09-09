@@ -253,7 +253,7 @@ export default function AppShell({
               <button
                 onClick={handleLogout}
                 className="logout-icon-btn"
-                title="Sign Out of CareShift"
+                title="Sign Out of Shift Tracker"
               >
                 <LogOut size={16} />
               </button>

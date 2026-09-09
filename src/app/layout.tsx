@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CareShift — Hospital Staff & Shift Management",
-  description: "Hospital Inpatient Nurse and Physician Shift Management Portal",
+  title: "Shift Tracker — Workforce Shift Management",
+  description: "Workforce Staff and Shift Scheduling Management Portal",
 };
 
 export default function RootLayout({

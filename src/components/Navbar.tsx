@@ -295,7 +295,7 @@ export default function Navbar({ currentUser, pendingTradeCount = 0 }: NavbarPro
               <button
                 onClick={handleLogout}
                 className="btn btn-secondary btn-sm"
-                title="Sign out of CareShift"
+                title="Sign out of Shift Tracker"
                 style={{ padding: '6px 10px' }}
               >
                 <LogOut size={14} />

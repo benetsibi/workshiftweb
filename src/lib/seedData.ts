@@ -406,8 +406,8 @@ export const initialSeedData = {
     }
   ],
   "settings": {
-    "hospitalName": "St. Jude Community Hospital",
-    "unitName": "Hospital",
+    "hospitalName": "Workforce Operations",
+    "unitName": "Operations Unit",
     "dayShiftStart": "07:00",
     "dayShiftEnd": "19:00",
     "nightShiftStart": "19:00",

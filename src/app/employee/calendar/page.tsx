@@ -80,7 +80,7 @@ export default function EmployeeCalendarPage() {
   if (!currentUser) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', color: '#64748b' }}>
-        Loading CareShift schedule...
+        Loading schedule...
       </div>
     );
   }

@@ -214,7 +214,7 @@ function TradesHubContent() {
   if (!currentUser) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', color: '#64748b' }}>
-        Loading CareShift trades...
+        Loading trades...
       </div>
     );
   }

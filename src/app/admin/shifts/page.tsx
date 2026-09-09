@@ -118,7 +118,7 @@ export default function AdminShiftsPage() {
   if (!currentUser) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', color: '#64748b' }}>
-        Loading CareShift shifts...
+        Loading shifts...
       </div>
     );
   }

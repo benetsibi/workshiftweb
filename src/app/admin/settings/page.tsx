@@ -23,8 +23,8 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  const [hospitalName, setHospitalName] = useState('St. Jude Community Hospital');
-  const [unitName, setUnitName] = useState('Acute Inpatient Care Unit 3B');
+  const [hospitalName, setHospitalName] = useState('Workforce Operations');
+  const [unitName, setUnitName] = useState('Operations Unit');
   const [dayShiftStart, setDayShiftStart] = useState('07:00');
   const [dayShiftEnd, setDayShiftEnd] = useState('19:00');
   const [nightShiftStart, setNightShiftStart] = useState('19:00');
@@ -47,8 +47,8 @@ export default function AdminSettingsPage() {
       .then(res => res.json())
       .then(data => {
         if (data.settings) {
-          setHospitalName(data.settings.hospitalName || 'St. Jude Community Hospital');
-          setUnitName(data.settings.unitName || 'Acute Inpatient Care Unit 3B');
+          setHospitalName(data.settings.hospitalName || 'Workforce Operations');
+          setUnitName(data.settings.unitName || 'Operations Unit');
           setDayShiftStart(data.settings.dayShiftStart || '07:00');
           setDayShiftEnd(data.settings.dayShiftEnd || '19:00');
           setNightShiftStart(data.settings.nightShiftStart || '19:00');
@@ -95,7 +95,7 @@ export default function AdminSettingsPage() {
   if (!currentUser) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', color: '#64748b' }}>
-        Loading CareShift settings...
+        Loading settings...
       </div>
     );
   }
