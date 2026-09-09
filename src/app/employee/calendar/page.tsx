@@ -99,10 +99,10 @@ export default function EmployeeCalendarPage() {
         }}>
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-              Hospital Team Schedule
+              Team Schedule & Calendar
             </h1>
             <p style={{ fontSize: '14px', color: '#64748b' }}>
-              Active Day & Night rotations for all 3 Nurses and 2 Inpatient Doctors.
+              Active Day & Night rotations across all scheduled team members.
             </p>
           </div>
 

@@ -203,7 +203,7 @@ export default function TradeRequestModal({
         }}>
           <ShieldCheck size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <strong>Hospital Staffing Policy:</strong> {isNurse ? 'Nurses may only trade shifts with other registered nurses.' : 'Physicians may only trade shifts with other medical doctors.'} Only eligible colleagues are listed below.
+            <strong>Staffing Policy:</strong> Qualified colleagues eligible for trade are listed below.
           </div>
         </div>
 

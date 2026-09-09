@@ -128,9 +128,6 @@ export default function ChronosPlannerView({
         <div>
 
           <h1 className="planner-title">Schedule & Shifts Planner</h1>
-          <p className="planner-subtitle">
-            Orchestrate labor coverage, assign shift tiers, and mitigate overtime risks in real time across dynamic operational units.
-          </p>
         </div>
 
         {isAdmin && (

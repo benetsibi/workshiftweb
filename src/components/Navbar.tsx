@@ -60,14 +60,14 @@ export default function Navbar({ currentUser, pendingTradeCount = 0 }: NavbarPro
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <HeartPulse size={20} color="#ffffff" />
+            <Clock size={20} color="#ffffff" strokeWidth={2.4} />
           </div>
           <div>
             <div style={{ fontWeight: 800, fontSize: '18px', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '3px', color: '#0f172a' }}>
-              Care<span style={{ color: '#0284c7' }}>Shift</span>
+              Shift<span style={{ color: '#0284c7' }}>Tracker</span>
             </div>
             <div style={{ fontSize: '10px', color: '#64748b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600, marginTop: '-2px' }}>
-              Clinical Staff Roster
+              Shift Trade Hub
             </div>
           </div>
         </Link>
@@ -304,7 +304,7 @@ export default function Navbar({ currentUser, pendingTradeCount = 0 }: NavbarPro
             </div>
           ) : (
             <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>
-              Hospital Intranet Only
+              Internal Portal Only
             </span>
           )}
         </div>

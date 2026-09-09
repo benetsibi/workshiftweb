@@ -54,10 +54,10 @@ export default async function EmployeeProfilePage() {
             </span>
           </div>
           <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-            Clinical Staff Record
+            Staff Profile Record
           </h1>
           <p style={{ fontSize: '14px', color: '#64748b' }}>
-            Inpatient Care Unit 3B • Hospital Employee ID: #{user.id.slice(-6).toUpperCase()}
+            Operations Unit • Employee ID: #{user.id.slice(-6).toUpperCase()}
           </p>
         </div>
 

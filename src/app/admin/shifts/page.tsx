@@ -137,10 +137,10 @@ export default function AdminShiftsPage() {
         }}>
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-              Hospital Shift Management
+              Shift Schedule Management
             </h1>
             <p style={{ fontSize: '14px', color: '#64748b' }}>
-              Allot Day Shift (07:00–19:00) and Night Shift (19:00–07:00) to Nurses and Doctors.
+              Allot Day and Night shifts across employees and departments.
             </p>
           </div>
 

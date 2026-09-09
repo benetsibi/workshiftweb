@@ -84,7 +84,7 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to update settings');
 
-      setNotice({ message: 'Hospital settings saved successfully.', type: 'success' });
+      setNotice({ message: 'Settings saved successfully.', type: 'success' });
     } catch (err: any) {
       setNotice({ message: err.message || 'Error saving settings', type: 'error' });
     } finally {
@@ -120,10 +120,10 @@ export default function AdminSettingsPage() {
             </span>
           </div>
           <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-            Hospital & Shift Settings
+            Organization & Shift Settings
           </h1>
           <p style={{ fontSize: '14px', color: '#64748b' }}>
-            Configure clinical ward parameters, Day & Night shift operational hours, and staff trade policies.
+            Configure organization parameters, Day & Night shift operational hours, and staff trade policies.
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export default function AdminSettingsPage() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div className="form-group">
-                <label className="form-label">Hospital / Medical Center Name</label>
+                <label className="form-label">Organization / Company Name</label>
                 <input
                   type="text"
                   className="form-input"
@@ -328,7 +328,7 @@ export default function AdminSettingsPage() {
               style={{ backgroundColor: '#0284c7', borderColor: '#0284c7', padding: '10px 24px' }}
             >
               <Save size={16} />
-              <span>{saving ? 'Saving Settings...' : 'Save Hospital Settings'}</span>
+              <span>{saving ? 'Saving Settings...' : 'Save Settings'}</span>
             </button>
           </div>
         </form>

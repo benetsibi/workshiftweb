@@ -122,10 +122,10 @@ export default function AppShell({
             </div>
             <div>
               <div className="brand-title">
-                Care<span style={{ color: '#0284c7' }}>Shift</span>
+                Shift<span style={{ color: '#0284c7' }}>Tracker</span>
               </div>
               <div className="brand-subtitle">
-                Hospital Workforce Suite
+                Shift Trade Hub
               </div>
             </div>
           </Link>

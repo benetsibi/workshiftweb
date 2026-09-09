@@ -172,10 +172,10 @@ export default function AdminEmployeesPage() {
         }}>
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-              Hospital Staff & User Directory
+              Staff & User Directory
             </h1>
             <p style={{ fontSize: '14px', color: '#64748b' }}>
-              Manage registered nurses, inpatient physicians, credentials, and departmental roles.
+              Manage employees, credentials, and departmental roles.
             </p>
           </div>
 
