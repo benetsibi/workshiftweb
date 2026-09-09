@@ -29,7 +29,7 @@ function TradesHubContent() {
   const [trades, setTrades] = useState<TradeWithDetails[]>([]);
   const [myShifts, setMyShifts] = useState<ShiftWithDetails[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'inbound' | 'outbound' | 'all'>('inbound');
+  const [activeTab, setActiveTab] = useState<'inbound' | 'outbound'>('inbound');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState<{ [tradeId: string]: boolean }>({});
   const [statusNotice, setStatusNotice] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -38,13 +38,13 @@ function TradesHubContent() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('shifttracker_trades_tab');
-      if (saved && (saved === 'inbound' || saved === 'outbound' || saved === 'all')) {
+      if (saved && (saved === 'inbound' || saved === 'outbound')) {
         setActiveTab(saved);
       }
     }
   }, []);
 
-  const handleTabChange = (tab: 'inbound' | 'outbound' | 'all') => {
+  const handleTabChange = (tab: 'inbound' | 'outbound') => {
     setActiveTab(tab);
     if (typeof window !== 'undefined') {
       localStorage.setItem('shifttracker_trades_tab', tab);
@@ -70,7 +70,7 @@ function TradesHubContent() {
       });
   }, []);
 
-  const loadData = async (preferredTab?: 'inbound' | 'outbound' | 'all') => {
+  const loadData = async (preferredTab?: 'inbound' | 'outbound') => {
     setLoading(true);
     try {
       const [tradesRes, shiftsRes] = await Promise.all([
@@ -105,12 +105,17 @@ function TradesHubContent() {
         } catch {}
       }
 
-      setTrades(combinedTrades);
+      // Strictly filter to trades involving the logged-in employee (privacy protection)
+      const userOnlyTrades = currentUser
+        ? combinedTrades.filter((t: any) => t.targetUserId === currentUser.id || t.requesterId === currentUser.id)
+        : combinedTrades;
+
+      setTrades(userOnlyTrades);
       
       // Smart tab selection if not explicitly set
       if (currentUser) {
-        const inb = combinedTrades.filter((t: any) => t.targetUserId === currentUser.id);
-        const outb = combinedTrades.filter((t: any) => t.requesterId === currentUser.id);
+        const inb = userOnlyTrades.filter((t: any) => t.targetUserId === currentUser.id);
+        const outb = userOnlyTrades.filter((t: any) => t.requesterId === currentUser.id);
         
         if (preferredTab) {
           handleTabChange(preferredTab);
@@ -199,12 +204,7 @@ function TradesHubContent() {
   const outboundTrades = trades.filter(t => t.requesterId === currentUser?.id);
   const pendingInboundCount = inboundTrades.filter(t => t.status === 'PENDING_PEER').length;
 
-  const displayedTrades =
-    activeTab === 'inbound'
-      ? inboundTrades
-      : activeTab === 'outbound'
-      ? outboundTrades
-      : trades;
+  const displayedTrades = activeTab === 'inbound' ? inboundTrades : outboundTrades;
 
   const formatShiftDateTime = (iso: string) => {
     const d = new Date(iso);
@@ -319,26 +319,7 @@ function TradesHubContent() {
             <span>My Requests ({outboundTrades.length})</span>
           </button>
 
-          <button
-            onClick={() => handleTabChange('all')}
-            style={{
-              padding: '8px 18px',
-              fontSize: '13px',
-              fontWeight: 600,
-              borderRadius: '8px',
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: activeTab === 'all' ? '#0f172a' : 'transparent',
-              color: activeTab === 'all' ? '#ffffff' : '#64748b',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <Repeat size={15} />
-            <span>All ({trades.length})</span>
-          </button>
-        </div>
+          </div>
 
         {/* Trades List */}
         {loading ? (
@@ -370,7 +351,7 @@ function TradesHubContent() {
               <Repeat size={28} />
             </div>
             <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
-              {activeTab === 'inbound' ? 'No incoming shift trade proposals' : activeTab === 'outbound' ? 'You have not submitted any shift trades' : 'No shift trades found'}
+              {activeTab === 'inbound' ? 'No incoming shift trade proposals' : 'You have not submitted any shift trade requests'}
             </h3>
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', maxWidth: '440px', margin: '0 auto 20px' }}>
               {activeTab === 'inbound'
