@@ -1,0 +1,122 @@
+// Prisma Schema for ShiftTracker
+// Configured for PostgreSQL database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum ShiftStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  TRADED
+}
+
+enum TradeStatus {
+  PENDING_PEER
+  PEER_ACCEPTED
+  PEER_DECLINED
+  ADMIN_APPROVED
+  ADMIN_DENIED
+  CANCELLED
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  color       String   @default("#6366f1")
+  description String?
+  createdAt   DateTime @default(now())
+  users       User[]
+  shifts      Shift[]
+
+  @@map("departments")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  name         String
+  role         Role        @default(EMPLOYEE)
+  title        String?
+  phone        String?
+  avatarUrl    String?
+  hourlyRate   Decimal?    @db.Decimal(10, 2)
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  shifts               Shift[]
+  sentTradeRequests    TradeRequest[] @relation("RequesterTrades")
+  receivedTradeRequests TradeRequest[] @relation("TargetUserTrades")
+  auditLogs            AuditLog[]
+
+  @@map("users")
+}
+
+model Shift {
+  id           String      @id @default(uuid())
+  title        String
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  departmentId String
+  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  startTime    DateTime
+  endTime      DateTime
+  breakMinutes Int         @default(30)
+  location     String      @default("Main Facility")
+  notes        String?
+  status       ShiftStatus @default(SCHEDULED)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  requestedTrades TradeRequest[] @relation("RequesterShift")
+  targetedTrades  TradeRequest[] @relation("TargetShift")
+
+  @@map("shifts")
+}
+
+model TradeRequest {
+  id               String      @id @default(uuid())
+  requesterId      String
+  requester        User        @relation("RequesterTrades", fields: [requesterId], references: [id], onDelete: Cascade)
+  requesterShiftId String
+  requesterShift   Shift       @relation("RequesterShift", fields: [requesterShiftId], references: [id], onDelete: Cascade)
+  
+  targetUserId     String
+  targetUser       User        @relation("TargetUserTrades", fields: [targetUserId], references: [id], onDelete: Cascade)
+  targetShiftId    String
+  targetShift      Shift       @relation("TargetShift", fields: [targetShiftId], references: [id], onDelete: Cascade)
+
+  reason           String?
+  status           TradeStatus @default(PENDING_PEER)
+  adminNotes       String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@map("trade_requests")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
