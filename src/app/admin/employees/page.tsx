@@ -160,16 +160,9 @@ export default function AdminEmployeesPage() {
 
   return (
     <AppShell currentUser={currentUser} allEmployees={employees} departments={departments}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}>
+        <div className="resp-page-header">
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
               Staff & User Directory
@@ -205,7 +198,7 @@ export default function AdminEmployeesPage() {
         </div>
 
         {/* Employee Cards Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '20px' }}>
+        <div className="resp-staff-grid">
           {filteredEmployees.map(emp => {
             const isAdmin = emp.role === 'ADMIN';
 

@@ -87,16 +87,9 @@ export default function EmployeeCalendarPage() {
 
   return (
     <AppShell currentUser={currentUser} departments={departments}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '24px',
-        }}>
+        <div className="resp-page-header">
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
               Team Schedule & Calendar

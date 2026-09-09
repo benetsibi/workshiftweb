@@ -88,7 +88,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
       allEmployees={allEmployees}
       departments={userDept ? [userDept] : []}
     >
-      <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1360px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
         {/* Admin Preview Switcher Bar (only visible to Admin) */}
         {session.role === 'ADMIN' && (
           <div style={{
@@ -139,14 +139,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
         )}
 
         {/* Welcome Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}>
+        <div className="resp-page-header">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
               <span style={{
@@ -172,7 +165,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
 
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <Link href="/employee/calendar" className="btn btn-secondary">
               <Calendar size={15} />
               <span>Team Schedule</span>
@@ -227,12 +220,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
         )}
 
         {/* Top 3 KPI Metrics */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-          gap: '16px',
-          marginBottom: '24px',
-        }}>
+        <div className="resp-kpi-grid">
           <div className="glass-panel" style={{ padding: '18px 20px', borderRadius: '6px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
               <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
@@ -319,7 +307,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
               </span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', alignItems: 'center' }}>
+            <div className="resp-spotlight-grid">
               <div>
                 <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '6px' }}>
                   {nextShift.title}
@@ -342,7 +330,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
                 </div>
               </div>
 
-              <div style={{ textAlign: 'right' }}>
+              <div className="resp-spotlight-action" style={{ textAlign: 'right' }}>
                 <Link
                   href={`/employee/trades?shiftId=${nextShift.id}`}
                   className="btn btn-secondary"
@@ -356,10 +344,10 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
         )}
 
         {/* Schedule List & Active Trades Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '24px' }}>
+        <div className="resp-dashboard-grid">
           {/* My Shifts for this week */}
-          <div className="glass-panel" style={{ padding: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <div className="glass-panel" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Calendar size={18} color="#0284c7" />
                 <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#0f172a' }}>My Shifts (This Week)</h3>
@@ -390,18 +378,12 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
                   return (
                     <div
                       key={shift.id}
+                      className="resp-shift-row"
                       style={{
-                        padding: '12px 16px',
-                        backgroundColor: '#ffffff',
-                        border: '1px solid #cbd5e1',
-                        borderRadius: '4px',
                         borderLeft: `4px solid ${isNight ? '#475569' : '#0284c7'}`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '220px' }}>
                         <div style={{
                           width: '32px',
                           height: '32px',
@@ -411,11 +393,12 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          flexShrink: 0,
                         }}>
                           {isNight ? <Moon size={16} /> : <Sun size={16} />}
                         </div>
                         <div>
-                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                             {shift.title}
                             <span style={{
                               fontSize: '11px',
@@ -429,7 +412,7 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
                               {timeStr}
                             </span>
                           </div>
-                          <div style={{ fontSize: '12px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '3px' }}>
+                          <div style={{ fontSize: '12px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '8px', marginTop: '3px', flexWrap: 'wrap' }}>
                             <span style={{ fontWeight: 600, color: '#334155' }}>{dateStr}</span>
                             <span>•</span>
                             <span>{shift.location}</span>
@@ -439,13 +422,15 @@ export default async function EmployeeDashboardPage({ searchParams }: PageProps)
                         </div>
                       </div>
 
-                      <Link
-                        href={`/employee/trades?shiftId=${shift.id}`}
-                        className="btn btn-secondary btn-sm"
-                        style={{ fontSize: '12px', padding: '6px 12px' }}
-                      >
-                        <Repeat size={13} /> Request Swap
-                      </Link>
+                      <div className="resp-shift-row-btn">
+                        <Link
+                          href={`/employee/trades?shiftId=${shift.id}`}
+                          className="btn btn-secondary btn-sm"
+                          style={{ fontSize: '12px', padding: '6px 12px' }}
+                        >
+                          <Repeat size={13} /> Request Swap
+                        </Link>
+                      </div>
                     </div>
                   );
                 })}

@@ -36,7 +36,7 @@ export default async function EmployeeProfilePage() {
 
   return (
     <AppShell currentUser={session}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
@@ -61,7 +61,7 @@ export default async function EmployeeProfilePage() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}>
+        <div className="resp-two-column-grid">
           {/* Left: Staff ID Card */}
           <div className="glass-panel" style={{ padding: '24px', textAlign: 'center', height: 'fit-content', borderRadius: '6px' }}>
             <div style={{

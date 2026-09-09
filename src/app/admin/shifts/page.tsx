@@ -125,26 +125,19 @@ export default function AdminShiftsPage() {
 
   return (
     <AppShell currentUser={currentUser} allEmployees={employees} departments={departments}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Header Bar */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}>
+        <div className="resp-page-header">
           <div>
-            <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
+            <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
               Shift Schedule Management
             </h1>
-            <p style={{ fontSize: '14px', color: '#64748b' }}>
+            <p style={{ fontSize: '13px', color: '#64748b' }}>
               Allot Day and Night shifts across employees and departments.
             </p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             {/* View Switcher: Calendar vs Table */}
             <div style={{
               display: 'flex',
@@ -190,8 +183,8 @@ export default function AdminShiftsPage() {
 
         {/* Search & Filter Bar (visible for Table view or general filtering) */}
         {viewStyle === 'table' && (
-          <div className="glass-panel" style={{ padding: '16px 20px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: '260px' }}>
+          <div className="glass-panel" style={{ padding: '14px 16px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '240px', flexWrap: 'wrap' }}>
               <div style={{ position: 'relative', width: '100%', maxWidth: '340px' }}>
                 <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
                 <input
@@ -234,8 +227,8 @@ export default function AdminShiftsPage() {
         ) : (
           /* View Mode: Structured Table */
           <div className="glass-panel" style={{ overflow: 'hidden' }}>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+              <table style={{ width: '100%', minWidth: '700px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
                 <thead>
                   <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
                     <th style={{ padding: '14px 20px' }}>Shift Details</th>

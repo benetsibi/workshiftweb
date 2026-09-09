@@ -108,16 +108,9 @@ export default function AdminTradesPage() {
 
   return (
     <AppShell currentUser={currentUser} pendingTradeCount={pendingAdminTrades.length}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}>
+        <div className="resp-page-header">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
               <span className="badge badge-admin">
@@ -133,13 +126,7 @@ export default function AdminTradesPage() {
           </div>
 
           {/* Tab buttons */}
-          <div style={{
-            display: 'flex',
-            backgroundColor: '#f1f5f9',
-            borderRadius: 'var(--radius-md)',
-            padding: '4px',
-            border: '1px solid var(--border-subtle)',
-          }}>
+          <div className="resp-tab-container">
             <button
               onClick={() => setActiveTab('pending')}
               style={{
@@ -257,17 +244,7 @@ export default function AdminTradesPage() {
                   </div>
 
                   {/* Side-by-Side Swap Comparison */}
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr auto 1fr',
-                    alignItems: 'center',
-                    gap: '20px',
-                    backgroundColor: '#f8fafc',
-                    padding: '18px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    marginBottom: '16px',
-                  }}>
+                  <div className="resp-trade-comparison-grid">
                     {/* Left: Requester & Their Shift */}
                     <div>
                       <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.05em' }}>
@@ -295,7 +272,7 @@ export default function AdminTradesPage() {
                     </div>
 
                     {/* Middle: Swap Indicator */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#f59e0b' }}>
+                    <div className="resp-trade-glyph" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: '#f59e0b' }}>
                       <ArrowRightLeft size={24} />
                       <span style={{ fontSize: '10px', fontWeight: 700 }}>SWAP</span>
                     </div>

@@ -209,8 +209,9 @@ export default function AppShell({
             >
               <Menu size={22} />
             </button>
-
-
+            <div className="mobile-brand-title">
+              Shift<span style={{ color: '#0284c7' }}>Tracker</span>
+            </div>
           </div>
 
           <div className="topbar-right">

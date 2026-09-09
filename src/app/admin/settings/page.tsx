@@ -102,7 +102,7 @@ export default function AdminSettingsPage() {
 
   return (
     <AppShell currentUser={currentUser}>
-      <div style={{ padding: '24px 32px', maxWidth: '960px' }}>
+      <div className="page-content-wrapper" style={{ maxWidth: '960px' }}>
         {/* Header */}
         <div style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
@@ -158,7 +158,7 @@ export default function AdminSettingsPage() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="resp-form-row">
               <div className="form-group">
                 <label className="form-label">Organization / Company Name</label>
                 <input
@@ -195,7 +195,7 @@ export default function AdminSettingsPage() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div className="resp-form-row">
               {/* Day Shift */}
               <div style={{ padding: '16px', backgroundColor: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '10px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700, color: '#0369a1', marginBottom: '12px' }}>

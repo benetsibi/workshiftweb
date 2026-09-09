@@ -221,16 +221,9 @@ function TradesHubContent() {
 
   return (
     <AppShell currentUser={currentUser} pendingTradeCount={pendingInboundCount}>
-      <div style={{ padding: '24px 32px' }}>
+      <div className="page-content-wrapper">
         {/* Top Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}>
+        <div className="resp-page-header">
           <div>
             <h1 style={{ fontSize: '26px', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
               My Shift Swap Requests
@@ -265,17 +258,10 @@ function TradesHubContent() {
         )}
 
         {/* Tab Selection */}
-        <div style={{
-          display: 'flex',
-          backgroundColor: '#f1f5f9',
-          borderRadius: 'var(--radius-md)',
-          padding: '4px',
-          border: '1px solid var(--border-subtle)',
-          width: 'fit-content',
-          marginBottom: '24px',
-        }}>
+        <div className="resp-tab-container">
           <button
             onClick={() => handleTabChange('inbound')}
+            className="resp-tab-btn"
             style={{
               padding: '8px 18px',
               fontSize: '13px',
@@ -301,6 +287,7 @@ function TradesHubContent() {
 
           <button
             onClick={() => handleTabChange('outbound')}
+            className="resp-tab-btn"
             style={{
               padding: '8px 18px',
               fontSize: '13px',
@@ -318,8 +305,7 @@ function TradesHubContent() {
             <ArrowUpRight size={15} />
             <span>My Requests ({outboundTrades.length})</span>
           </button>
-
-          </div>
+        </div>
 
         {/* Trades List */}
         {loading ? (
@@ -418,17 +404,7 @@ function TradesHubContent() {
                   </div>
 
                   {/* Side-by-Side Trade Proposal */}
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr auto 1fr',
-                    alignItems: 'center',
-                    gap: '20px',
-                    backgroundColor: '#f8fafc',
-                    padding: '16px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    marginBottom: '16px',
-                  }}>
+                  <div className="resp-trade-comparison-grid">
                     {/* Requester Shift */}
                     <div>
                       <div style={{ fontSize: '11px', color: isRequester ? 'var(--primary)' : '#059669', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
@@ -449,7 +425,7 @@ function TradesHubContent() {
                     </div>
 
                     {/* Middle Swap Glyph */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: 'var(--primary)' }}>
+                    <div className="resp-trade-glyph" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: 'var(--primary)' }}>
                       <ArrowRightLeft size={22} />
                       <span style={{ fontSize: '10px', fontWeight: 700 }}>SWAP</span>
                     </div>

@@ -6,7 +6,7 @@ async function clean() {
   });
 
   try {
-    // Delete any users belonging to IT / tech
+
     const uRes = await pool.query(`
       DELETE FROM users 
       WHERE department_id IN ('dept-dev', 'dept-design', 'dept-qa') 

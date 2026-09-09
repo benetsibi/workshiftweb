@@ -231,7 +231,8 @@ export default function CalendarView({
 
       {/* WEEK VIEW */}
       {viewMode === 'week' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '12px' }}>
+        <div className="resp-calendar-scroll">
+          <div className="resp-calendar-week-grid">
           {weekDays.map((day, idx) => {
             const dayShifts = getShiftsForDay(day);
             const isToday = isSameDay(day, today);
@@ -369,14 +370,15 @@ export default function CalendarView({
               </div>
             );
           })}
+          </div>
         </div>
       )}
 
       {/* MONTH VIEW */}
       {viewMode === 'month' && (
-        <div>
+        <div className="resp-calendar-scroll">
           {/* Day of week headers */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '6px', marginBottom: '6px', textAlign: 'center' }}>
+          <div className="resp-calendar-month-grid" style={{ marginBottom: '6px', textAlign: 'center' }}>
             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
               <div key={day} style={{ fontSize: '12px', fontWeight: 700, color: '#475569', padding: '6px' }}>
                 {day}
@@ -385,7 +387,7 @@ export default function CalendarView({
           </div>
 
           {/* Month grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: '6px' }}>
+          <div className="resp-calendar-month-grid">
             {monthDays.map((item, idx) => {
               const dayShifts = getShiftsForDay(item.date);
               const isToday = isSameDay(item.date, today);
