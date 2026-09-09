@@ -34,6 +34,23 @@ function TradesHubContent() {
   const [actionLoading, setActionLoading] = useState<{ [tradeId: string]: boolean }>({});
   const [statusNotice, setStatusNotice] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  // Restore saved tab from localStorage if available
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('shifttracker_trades_tab');
+      if (saved && (saved === 'inbound' || saved === 'outbound' || saved === 'all')) {
+        setActiveTab(saved);
+      }
+    }
+  }, []);
+
+  const handleTabChange = (tab: 'inbound' | 'outbound' | 'all') => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('shifttracker_trades_tab', tab);
+    }
+  };
+
   // Auto-open modal if shiftId was provided in query string
   useEffect(() => {
     if (preselectedShiftId) {
@@ -53,7 +70,7 @@ function TradesHubContent() {
       });
   }, []);
 
-  const loadData = async () => {
+  const loadData = async (preferredTab?: 'inbound' | 'outbound' | 'all') => {
     setLoading(true);
     try {
       const [tradesRes, shiftsRes] = await Promise.all([
@@ -66,7 +83,26 @@ function TradesHubContent() {
         shiftsRes.json(),
       ]);
 
-      if (tradesData.trades) setTrades(tradesData.trades);
+      if (tradesData.trades) {
+        setTrades(tradesData.trades);
+        
+        // Smart tab selection if not explicitly set
+        if (currentUser) {
+          const inb = tradesData.trades.filter((t: any) => t.targetUserId === currentUser.id);
+          const outb = tradesData.trades.filter((t: any) => t.requesterId === currentUser.id);
+          
+          if (preferredTab) {
+            handleTabChange(preferredTab);
+          } else if (typeof window !== 'undefined' && !localStorage.getItem('shifttracker_trades_tab')) {
+            if (inb.length > 0) {
+              handleTabChange('inbound');
+            } else if (outb.length > 0) {
+              handleTabChange('outbound');
+            }
+          }
+        }
+      }
+
       if (shiftsData.shifts && currentUser) {
         setMyShifts(shiftsData.shifts.filter((s: any) => s.userId === currentUser.id));
       }
@@ -207,7 +243,7 @@ function TradesHubContent() {
           marginBottom: '24px',
         }}>
           <button
-            onClick={() => setActiveTab('inbound')}
+            onClick={() => handleTabChange('inbound')}
             style={{
               padding: '8px 18px',
               fontSize: '13px',
@@ -232,7 +268,7 @@ function TradesHubContent() {
           </button>
 
           <button
-            onClick={() => setActiveTab('outbound')}
+            onClick={() => handleTabChange('outbound')}
             style={{
               padding: '8px 18px',
               fontSize: '13px',
@@ -252,7 +288,7 @@ function TradesHubContent() {
           </button>
 
           <button
-            onClick={() => setActiveTab('all')}
+            onClick={() => handleTabChange('all')}
             style={{
               padding: '8px 18px',
               fontSize: '13px',
@@ -273,7 +309,20 @@ function TradesHubContent() {
         </div>
 
         {/* Trades List */}
-        {displayedTrades.length === 0 ? (
+        {loading ? (
+          <div className="glass-panel" style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              border: '3px solid #e2e8f0',
+              borderTopColor: '#0284c7',
+              borderRadius: '50%',
+              margin: '0 auto 16px',
+              animation: 'spin 0.8s linear infinite',
+            }} />
+            <p style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>Loading trade requests...</p>
+          </div>
+        ) : displayedTrades.length === 0 ? (
           <div className="glass-panel" style={{ padding: '60px 24px', textAlign: 'center' }}>
             <div style={{
               width: '56px',
@@ -369,8 +418,8 @@ function TradesHubContent() {
                   }}>
                     {/* Requester Shift */}
                     <div>
-                      <div style={{ fontSize: '11px', color: isRequester ? 'var(--primary)' : 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
-                        {isRequester ? 'YOUR OFFERED SHIFT' : `${trade.requester.name.toUpperCase()}'S SHIFT`}
+                      <div style={{ fontSize: '11px', color: isRequester ? 'var(--primary)' : '#059669', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
+                        {isRequester ? 'YOUR OFFERED SHIFT' : `${trade.requester.name.toUpperCase()}'S OFFERED SHIFT`}
                       </div>
 
                       <div style={{ backgroundColor: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)', borderLeft: `4px solid ${trade.requesterShift.department?.color || '#4f46e5'}` }}>
@@ -381,7 +430,7 @@ function TradesHubContent() {
                           {formatShiftDateTime(trade.requesterShift.startTime)}
                         </div>
                         <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
-                          {trade.requesterShift.department?.name} • {trade.requesterShift.location}
+                          {trade.requesterShift.department?.name ? `${trade.requesterShift.department.name} • ` : ''}{trade.requesterShift.location}
                         </div>
                       </div>
                     </div>
@@ -394,8 +443,10 @@ function TradesHubContent() {
 
                     {/* Target Shift */}
                     <div>
-                      <div style={{ fontSize: '11px', color: isTargetUser ? '#059669' : 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
-                        {isTargetUser ? 'YOUR REQUESTED SHIFT' : `${trade.targetUser.name.toUpperCase()}'S SHIFT`}
+                      <div style={{ fontSize: '11px', color: isTargetUser ? '#0284c7' : 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
+                        {isTargetUser
+                          ? `YOUR SHIFT (REQUESTED BY ${trade.requester.name.toUpperCase()})`
+                          : `${trade.targetUser.name.toUpperCase()}'S SHIFT (DESIRED)`}
                       </div>
 
                       <div style={{ backgroundColor: '#ffffff', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)', borderLeft: `4px solid ${trade.targetShift.department?.color || '#10b981'}` }}>
@@ -406,7 +457,7 @@ function TradesHubContent() {
                           {formatShiftDateTime(trade.targetShift.startTime)}
                         </div>
                         <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
-                          {trade.targetShift.department?.name} • {trade.targetShift.location}
+                          {trade.targetShift.department?.name ? `${trade.targetShift.department.name} • ` : ''}{trade.targetShift.location}
                         </div>
                       </div>
                     </div>
@@ -489,7 +540,7 @@ function TradesHubContent() {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSubmitted={() => {
-              loadData();
+              loadData('outbound');
               setStatusNotice({
                 type: 'success',
                 message: 'Your shift trade request was successfully submitted to your colleague!',

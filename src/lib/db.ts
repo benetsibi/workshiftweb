@@ -322,7 +322,7 @@ const memoryStore = {
   departments: JSON.parse(JSON.stringify(initialSeedData.departments)) as Department[],
   users: JSON.parse(JSON.stringify(initialSeedData.users)) as User[],
   shifts: JSON.parse(JSON.stringify(initialSeedData.shifts)) as Shift[],
-  trades: [] as TradeRequest[],
+  trades: JSON.parse(JSON.stringify((initialSeedData as any).trades || [])) as TradeRequest[],
   settings: {
     hospitalName: 'St. Jude Community Hospital',
     unitName: 'Acute Inpatient Care Unit 3B',
@@ -862,6 +862,9 @@ export const db = {
           const reqShift = memoryStore.shifts.find((s) => s.id === t.requesterShiftId);
           const tgtShift = memoryStore.shifts.find((s) => s.id === t.targetShiftId);
 
+          const reqDept = reqShift ? memoryStore.departments.find((d) => d.id === reqShift.departmentId) : undefined;
+          const tgtDept = tgtShift ? memoryStore.departments.find((d) => d.id === tgtShift.departmentId) : undefined;
+
           return {
             ...t,
             requester: {
@@ -872,6 +875,7 @@ export const db = {
             },
             requesterShift: {
               ...(reqShift || ({} as any)),
+              department: reqDept,
             },
             targetUser: {
               id: t.targetUserId,
@@ -881,6 +885,7 @@ export const db = {
             },
             targetShift: {
               ...(tgtShift || ({} as any)),
+              department: tgtDept,
             },
           };
         });
