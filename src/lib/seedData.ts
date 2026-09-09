@@ -1,4 +1,4 @@
-{
+export const initialSeedData = {
   "departments": [
     {
       "id": "dept-nurse",
@@ -415,4 +415,4 @@
     "autoApproval": false,
     "emailAlerts": true
   }
-}
+} as const;
